@@ -15,7 +15,10 @@ export default function Wordle(){
                 const x = guess.split('')
                 x[guessPosition]=keyPressed
                 setGuess(x.join(''))
-                setGuessPosition( (guessPosition+=1)%6)
+                if (guessPosition<5){
+                    setGuessPosition( (guessPosition+=1)%6)
+                }
+
             } else {
                 notInitialRender.current = true
               }
@@ -24,13 +27,13 @@ export default function Wordle(){
 
     return(
     <>
-            <p>Key pressed: {keyPressed}</p>
+            {/* <p>Key pressed: {keyPressed}</p>
             <p>Guess: {guess}</p>
-            <p>Guess Position: {guessPosition}</p>
+            <p>Guess Position: {guessPosition}</p> */}
 
         <Guess guess={guess} guessPosition={guessPosition}/>
 
-        <Keyboard setKeyPressed={setKeyPressed} setGuessPosition={setGuessPosition} className='keyboard'/>
+        <Keyboard setKeyPressed={setKeyPressed} setGuessPosition={setGuessPosition} setGuess={setGuess} guessPosition={guessPosition} className='keyboard'/>
 
         <style jsx>{`
             .keyboard{
