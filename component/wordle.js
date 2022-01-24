@@ -7,11 +7,8 @@ export default function Wordle(){
     const [guess, setGuess] = useState('______')
     const [guessPosition, setGuessPosition] = useState(0)
     const [keyPressed, setKeyPressed] = useState()
-
     const notInitialRender = useRef(false)
     
-    
-
     useEffect(
         ()=>{
             if (notInitialRender.current) {
@@ -27,9 +24,9 @@ export default function Wordle(){
 
     return(
     <>
-            {/* <p>Key pressed: {keyPressed}</p>
+            <p>Key pressed: {keyPressed}</p>
             <p>Guess: {guess}</p>
-            <p>Guess Position: {guessPosition}</p> */}
+            <p>Guess Position: {guessPosition}</p>
 
         <Guess guess={guess} guessPosition={guessPosition}/>
 

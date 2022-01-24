@@ -5,12 +5,12 @@ export default function Guess({guess, guessPosition}){
     return(
         <>
             <div className='guess'>
-                <input className={ guessPosition==0 && "active" } type={"text"} minLength={1} maxLength={1} size={1} value={text[0]}/>
-                <input className={ guessPosition==1 && "active" } type={"text"} minLength={1} maxLength={1} size={1} value={text[1]}/>
-                <input className={ guessPosition==2 && "active" } type={"text"} minLength={1} maxLength={1} size={1} value={text[2]}/>
-                <input className={ guessPosition==3 && "active" } type={"text"} minLength={1} maxLength={1} size={1} value={text[3]}/>
-                <input className={ guessPosition==4 && "active" } type={"text"} minLength={1} maxLength={1} size={1} value={text[4]}/>
-                <input className={ guessPosition==5 && "active" } type={"text"} minLength={1} maxLength={1} size={1} value={text[5]}/>
+                <input className={ guessPosition==0 && "active" } type={"text"} minLength={1} maxLength={1} size={1} value={text[0]} readOnly/>
+                <input className={ guessPosition==1 && "active" } type={"text"} minLength={1} maxLength={1} size={1} value={text[1]} readOnly/>
+                <input className={ guessPosition==2 && "active" } type={"text"} minLength={1} maxLength={1} size={1} value={text[2]} readOnly/>
+                <input className={ guessPosition==3 && "active" } type={"text"} minLength={1} maxLength={1} size={1} value={text[3]} readOnly/>
+                <input className={ guessPosition==4 && "active" } type={"text"} minLength={1} maxLength={1} size={1} value={text[4]} readOnly/>
+                <input className={ guessPosition==5 && "active" } type={"text"} minLength={1} maxLength={1} size={1} value={text[5]} readOnly/>
             </div>
             <style jsx>{`
                 .guess{

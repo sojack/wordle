@@ -1,8 +1,7 @@
 
 export default function Keyboard({ setKeyPressed,setGuessPosition }){
     function deleteHandler() {
-        setGuessPosition( (prev) => (prev-1)%6
-        )
+        setGuessPosition( (prev) => (prev-1)%6 )
     }
 
     return (
