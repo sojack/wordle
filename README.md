@@ -1,1 +1,1 @@
-This is a starter template for [Learn Next.js](https://nextjs.org/learn).
+Jack's wordle but for 6-letter words [jacks wordle](https://jackswordle.netlify.app/).
