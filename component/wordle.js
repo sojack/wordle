@@ -5,12 +5,33 @@ import Guess from './guess'
 import { TARGET_WORDS } from '../data/words'
 
 const MAX_GUESSES = 6
+const STORAGE_KEY = 'wordle-state'
 
 function getTodaysWord() {
     const start = new Date(2024, 0, 1)
     const today = new Date()
     const diff = Math.floor((today - start) / (1000 * 60 * 60 * 24))
     return TARGET_WORDS[diff % TARGET_WORDS.length]
+}
+
+function getTodaysDate() {
+    return new Date().toISOString().slice(0, 10)
+}
+
+function loadState() {
+    try {
+        const saved = JSON.parse(localStorage.getItem(STORAGE_KEY))
+        if (saved && saved.date === getTodaysDate()) return saved
+    } catch {}
+    return null
+}
+
+function saveState(guesses, submittedRows) {
+    localStorage.setItem(STORAGE_KEY, JSON.stringify({
+        date: getTodaysDate(),
+        guesses,
+        submittedRows,
+    }))
 }
 
 // Returns array of 6 colors: 'green', 'yellow', or 'gray'
@@ -43,9 +64,10 @@ function evaluateGuess(guess, target) {
 
 export default function Wordle(){
     const [targetWord] = useState(getTodaysWord)
-    const [guesses, setGuesses] = useState(Array(MAX_GUESSES).fill('______'))
-    const [submittedRows, setSubmittedRows] = useState(0)
-    const [currentRow, setCurrentRow] = useState(0)
+    const [saved] = useState(loadState)
+    const [guesses, setGuesses] = useState(saved ? saved.guesses : Array(MAX_GUESSES).fill('______'))
+    const [submittedRows, setSubmittedRows] = useState(saved ? saved.submittedRows : 0)
+    const [currentRow, setCurrentRow] = useState(saved ? saved.submittedRows : 0)
     const [guessPosition, setGuessPosition] = useState(0)
     function handleDelete() {
         setGuessPosition(prev => {
@@ -90,7 +112,9 @@ export default function Wordle(){
         if (gameOver) return
         const current = guesses[currentRow]
         if (current.includes('_')) return
-        setSubmittedRows(submittedRows + 1)
+        const newSubmitted = submittedRows + 1
+        setSubmittedRows(newSubmitted)
+        saveState(guesses, newSubmitted)
         if (current !== targetWord && currentRow < MAX_GUESSES - 1) {
             setCurrentRow(currentRow + 1)
             setGuessPosition(0)
