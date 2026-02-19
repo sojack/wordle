@@ -1,16 +1,27 @@
-export default function Guess({guess, guessPosition}){
-    const text= guess.split('')
+export default function Guess({guess, guessPosition, colors}){
+    const text = guess.split('')
 
+    function getClass(i) {
+        if (colors) return colors[i]
+        if (guessPosition === i) return 'active'
+        return ''
+    }
 
     return(
         <>
             <div className='guess'>
-                <input className={ guessPosition==0 && "active" } type={"text"} minLength={1} maxLength={1} size={1} value={text[0]} readOnly/>
-                <input className={ guessPosition==1 && "active" } type={"text"} minLength={1} maxLength={1} size={1} value={text[1]} readOnly/>
-                <input className={ guessPosition==2 && "active" } type={"text"} minLength={1} maxLength={1} size={1} value={text[2]} readOnly/>
-                <input className={ guessPosition==3 && "active" } type={"text"} minLength={1} maxLength={1} size={1} value={text[3]} readOnly/>
-                <input className={ guessPosition==4 && "active" } type={"text"} minLength={1} maxLength={1} size={1} value={text[4]} readOnly/>
-                <input className={ guessPosition==5 && "active" } type={"text"} minLength={1} maxLength={1} size={1} value={text[5]} readOnly/>
+                {text.map((letter, i) => (
+                    <input
+                        key={i}
+                        className={getClass(i)}
+                        type="text"
+                        minLength={1}
+                        maxLength={1}
+                        size={1}
+                        value={letter === '_' ? '' : letter}
+                        readOnly
+                    />
+                ))}
             </div>
             <style jsx>{`
                 .guess{
@@ -25,14 +36,26 @@ export default function Guess({guess, guessPosition}){
                     text-align:center;
                     color:white;
                     font-size:large;
+                    font-weight:bold;
                     text-transform:uppercase;
                     margin:4px;
+                    width:45px;
+                    height:45px;
                 }
                 .active{
-                    background-color:green;
+                    background-color:#555;
+                    border:2px solid white;
+                }
+                .green{
+                    background-color:#538d4e;
+                }
+                .yellow{
+                    background-color:#b59f3b;
+                }
+                .gray{
+                    background-color:#3a3a3c;
                 }
         `}</style>
         </>
-
     )
 }

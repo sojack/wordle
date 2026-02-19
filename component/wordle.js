@@ -13,9 +13,38 @@ function getTodaysWord() {
     return TARGET_WORDS[diff % TARGET_WORDS.length]
 }
 
+// Returns array of 6 colors: 'green', 'yellow', or 'gray'
+function evaluateGuess(guess, target) {
+    const result = Array(6).fill('gray')
+    const targetLetters = target.split('')
+    const guessLetters = guess.split('')
+
+    // First pass: mark greens
+    for (let i = 0; i < 6; i++) {
+        if (guessLetters[i] === targetLetters[i]) {
+            result[i] = 'green'
+            targetLetters[i] = null
+            guessLetters[i] = null
+        }
+    }
+
+    // Second pass: mark yellows
+    for (let i = 0; i < 6; i++) {
+        if (guessLetters[i] === null) continue
+        const idx = targetLetters.indexOf(guessLetters[i])
+        if (idx !== -1) {
+            result[i] = 'yellow'
+            targetLetters[idx] = null
+        }
+    }
+
+    return result
+}
+
 export default function Wordle(){
     const [targetWord] = useState(getTodaysWord)
     const [guesses, setGuesses] = useState(Array(MAX_GUESSES).fill('______'))
+    const [submittedRows, setSubmittedRows] = useState(0)
     const [currentRow, setCurrentRow] = useState(0)
     const [guessPosition, setGuessPosition] = useState(0)
     const [keyPressed, setKeyPressed] = useState()
@@ -59,6 +88,7 @@ export default function Wordle(){
     function handleEnter() {
         const current = guesses[currentRow]
         if (current.includes('_')) return
+        setSubmittedRows(submittedRows + 1)
         if (currentRow < MAX_GUESSES - 1) {
             setCurrentRow(currentRow + 1)
             setGuessPosition(0)
@@ -73,6 +103,7 @@ export default function Wordle(){
                     key={i}
                     guess={g}
                     guessPosition={i === currentRow ? guessPosition : -1}
+                    colors={i < submittedRows ? evaluateGuess(g, targetWord) : null}
                 />
             ))}
         </div>
