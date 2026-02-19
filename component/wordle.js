@@ -2,8 +2,17 @@ import React, { useState,useEffect, useRef } from "react";
 
 import Keyboard from './keyboard'
 import Guess from './guess'
+import { TARGET_WORDS } from '../data/words'
+
+function getTodaysWord() {
+    const start = new Date(2024, 0, 1)
+    const today = new Date()
+    const diff = Math.floor((today - start) / (1000 * 60 * 60 * 24))
+    return TARGET_WORDS[diff % TARGET_WORDS.length]
+}
 
 export default function Wordle(){
+    const [targetWord] = useState(getTodaysWord)
     const [guess, setGuess] = useState('______')
     const [guessPosition, setGuessPosition] = useState(0)
     const [keyPressed, setKeyPressed] = useState()
