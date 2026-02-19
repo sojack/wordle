@@ -4,18 +4,6 @@ export default function Keyboard({ setKeyPressed, onDelete, onEnter, keyColors =
         setKeyPressed(key)
     }
 
-    function Key({ letter }) {
-        return (
-            <button
-                type="button"
-                className={`key ${keyColors[letter] || ''}`}
-                onMouseDown={() => keyPressHandler(letter)}
-            >
-                {letter}
-            </button>
-        )
-    }
-
     const row1 = ['Q','W','E','R','T','Y','U','I','O','P']
     const row2 = ['A','S','D','F','G','H','J','K','L']
     const row3 = ['Z','X','C','V','B','N','M']
@@ -24,14 +12,20 @@ export default function Keyboard({ setKeyPressed, onDelete, onEnter, keyColors =
         <>
         <div className='keyboard'>
             <div className='keyboard_row'>
-                {row1.map(l => <Key key={l} letter={l} />)}
+                {row1.map(l => (
+                    <button key={l} type="button" className={`key ${keyColors[l] || ''}`} onMouseDown={() => keyPressHandler(l)}>{l}</button>
+                ))}
             </div>
             <div className='keyboard_row'>
-                {row2.map(l => <Key key={l} letter={l} />)}
+                {row2.map(l => (
+                    <button key={l} type="button" className={`key ${keyColors[l] || ''}`} onMouseDown={() => keyPressHandler(l)}>{l}</button>
+                ))}
             </div>
             <div className='keyboard_row'>
                 <button type="button" className='key long' onMouseDown={onEnter}>ENTER</button>
-                {row3.map(l => <Key key={l} letter={l} />)}
+                {row3.map(l => (
+                    <button key={l} type="button" className={`key ${keyColors[l] || ''}`} onMouseDown={() => keyPressHandler(l)}>{l}</button>
+                ))}
                 <button type="button" className='key long' onMouseDown={onDelete}>Delete</button>
             </div>
         </div>
@@ -45,6 +39,7 @@ export default function Keyboard({ setKeyPressed, onDelete, onEnter, keyColors =
             .keyboard_row{
                 display:flex;
                 justify-content:center;
+                align-items:center;
             }
             .key{
                 border:none;
