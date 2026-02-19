@@ -85,6 +85,26 @@ export default function Wordle(){
         })
     }
 
+    // Build a map of letter -> best color (green > yellow > gray)
+    function getKeyColors() {
+        const colors = {}
+        const priority = { green: 3, yellow: 2, gray: 1 }
+        for (let i = 0; i < submittedRows; i++) {
+            const guess = guesses[i]
+            const result = evaluateGuess(guess, targetWord)
+            for (let j = 0; j < 6; j++) {
+                const letter = guess[j]
+                const color = result[j]
+                if (!colors[letter] || priority[color] > priority[colors[letter]]) {
+                    colors[letter] = color
+                }
+            }
+        }
+        return colors
+    }
+
+    const keyColors = getKeyColors()
+
     function handleEnter() {
         const current = guesses[currentRow]
         if (current.includes('_')) return
@@ -112,6 +132,7 @@ export default function Wordle(){
             setKeyPressed={setKeyPressed}
             onDelete={handleDelete}
             onEnter={handleEnter}
+            keyColors={keyColors}
         />
 
         <style jsx>{`

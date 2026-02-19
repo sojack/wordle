@@ -1,43 +1,37 @@
 
-export default function Keyboard({ setKeyPressed, onDelete, onEnter }){
+export default function Keyboard({ setKeyPressed, onDelete, onEnter, keyColors = {} }){
     function keyPressHandler(key){
         setKeyPressed(key)
     }
+
+    function Key({ letter }) {
+        return (
+            <button
+                type="button"
+                className={`key ${keyColors[letter] || ''}`}
+                onMouseDown={() => keyPressHandler(letter)}
+            >
+                {letter}
+            </button>
+        )
+    }
+
+    const row1 = ['Q','W','E','R','T','Y','U','I','O','P']
+    const row2 = ['A','S','D','F','G','H','J','K','L']
+    const row3 = ['Z','X','C','V','B','N','M']
+
     return (
         <>
         <div className='keyboard'>
             <div className='keyboard_row'>
-                <button type="button" className='key' onMouseDown={()=>keyPressHandler("Q")}>Q</button>
-                <button type="button" className='key' onMouseDown={()=>keyPressHandler("W")}>W</button>
-                <button type="button" className='key' onMouseDown={()=>keyPressHandler("E")}>E</button>
-                <button type="button" className='key' onMouseDown={()=>keyPressHandler("R")}>R</button>
-                <button type="button" className='key' onMouseDown={()=>keyPressHandler("T")}>T</button>
-                <button type="button" className='key' onMouseDown={()=>keyPressHandler("Y")}>Y</button>
-                <button type="button" className='key' onMouseDown={()=>keyPressHandler("U")}>U</button>
-                <button type="button" className='key' onMouseDown={()=>keyPressHandler("I")}>I</button>
-                <button type="button" className='key' onMouseDown={()=>keyPressHandler("O")}>O</button>
-                <button type="button" className='key' onMouseDown={()=>keyPressHandler("P")}>P</button>
+                {row1.map(l => <Key key={l} letter={l} />)}
             </div>
             <div className='keyboard_row'>
-                <button type="button" className='key' onMouseDown={()=>keyPressHandler("A")}>A</button>
-                <button type="button" className='key' onMouseDown={()=>keyPressHandler("S")}>S</button>
-                <button type="button" className='key' onMouseDown={()=>keyPressHandler("D")}>D</button>
-                <button type="button" className='key' onMouseDown={()=>keyPressHandler("F")}>F</button>
-                <button type="button" className='key' onMouseDown={()=>keyPressHandler("G")}>G</button>
-                <button type="button" className='key' onMouseDown={()=>keyPressHandler("H")}>H</button>
-                <button type="button" className='key' onMouseDown={()=>keyPressHandler("J")}>J</button>
-                <button type="button" className='key' onMouseDown={()=>keyPressHandler("K")}>K</button>
-                <button type="button" className='key' onMouseDown={()=>keyPressHandler("L")}>L</button>
+                {row2.map(l => <Key key={l} letter={l} />)}
             </div>
             <div className='keyboard_row'>
                 <button type="button" className='key long' onMouseDown={onEnter}>ENTER</button>
-                <button type="button" className='key' onMouseDown={()=>keyPressHandler("Z")}>Z</button>
-                <button type="button" className='key' onMouseDown={()=>keyPressHandler("X")}>X</button>
-                <button type="button" className='key' onMouseDown={()=>keyPressHandler("C")}>C</button>
-                <button type="button" className='key' onMouseDown={()=>keyPressHandler("V")}>V</button>
-                <button type="button" className='key' onMouseDown={()=>keyPressHandler("B")}>B</button>
-                <button type="button" className='key' onMouseDown={()=>keyPressHandler("N")}>N</button>
-                <button type="button" className='key' onMouseDown={()=>keyPressHandler("M")}>M</button>
+                {row3.map(l => <Key key={l} letter={l} />)}
                 <button type="button" className='key long' onMouseDown={onDelete}>Delete</button>
             </div>
         </div>
@@ -46,6 +40,7 @@ export default function Keyboard({ setKeyPressed, onDelete, onEnter }){
             .keyboard{
                 display:grid;
                 grid-template-columns:1fr;
+                margin-top:1em;
             }
             .keyboard_row{
                 display:flex;
@@ -60,10 +55,20 @@ export default function Keyboard({ setKeyPressed, onDelete, onEnter }){
                 cursor:pointer;
             }
             .key:hover{
-                background-color:darkgray;
+                opacity:0.8;
+            }
+            .green{
+                background-color:#538d4e;
                 color:white;
             }
-
+            .yellow{
+                background-color:#b59f3b;
+                color:white;
+            }
+            .gray{
+                background-color:#3a3a3c;
+                color:white;
+            }
         `}</style>
 
         </>
