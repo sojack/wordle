@@ -1,4 +1,4 @@
-import React, { useState,useEffect, useRef } from "react";
+import React, { useState } from "react";
 
 import Keyboard from './keyboard'
 import Guess from './guess'
@@ -47,29 +47,6 @@ export default function Wordle(){
     const [submittedRows, setSubmittedRows] = useState(0)
     const [currentRow, setCurrentRow] = useState(0)
     const [guessPosition, setGuessPosition] = useState(0)
-    const [keyPressed, setKeyPressed] = useState()
-    const notInitialRender = useRef(false)
-
-    useEffect(
-        ()=>{
-            if (notInitialRender.current) {
-                setGuesses(prev => {
-                    const updated = [...prev]
-                    const x = updated[currentRow].split('')
-                    x[guessPosition]=keyPressed
-                    updated[currentRow] = x.join('')
-                    return updated
-                })
-                if (guessPosition<5){
-                    setGuessPosition(guessPosition + 1)
-                }
-
-            } else {
-                notInitialRender.current = true
-              }
-        },[keyPressed]
-    )
-
     function handleDelete() {
         setGuessPosition(prev => {
             if (prev > 0) return prev - 1
@@ -122,7 +99,16 @@ export default function Wordle(){
 
     function handleKeyPress(key) {
         if (gameOver) return
-        setKeyPressed(key)
+        setGuesses(prev => {
+            const updated = [...prev]
+            const x = updated[currentRow].split('')
+            x[guessPosition] = key
+            updated[currentRow] = x.join('')
+            return updated
+        })
+        if (guessPosition < 5) {
+            setGuessPosition(guessPosition + 1)
+        }
     }
 
     function handleDeleteSafe() {
