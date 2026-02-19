@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect, useCallback } from "react";
 
 import Keyboard from './keyboard'
 import Guess from './guess'
@@ -115,6 +115,22 @@ export default function Wordle(){
         if (gameOver) return
         handleDelete()
     }
+
+    const handlePhysicalKey = useCallback((e) => {
+        const key = e.key.toUpperCase()
+        if (key === 'ENTER') {
+            handleEnter()
+        } else if (key === 'BACKSPACE') {
+            handleDeleteSafe()
+        } else if (/^[A-Z]$/.test(key)) {
+            handleKeyPress(key)
+        }
+    })
+
+    useEffect(() => {
+        window.addEventListener('keydown', handlePhysicalKey)
+        return () => window.removeEventListener('keydown', handlePhysicalKey)
+    }, [handlePhysicalKey])
 
     return(
     <>
