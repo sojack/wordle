@@ -105,14 +105,29 @@ export default function Wordle(){
 
     const keyColors = getKeyColors()
 
+    const won = submittedRows > 0 && guesses[submittedRows - 1] === targetWord
+    const lost = submittedRows >= MAX_GUESSES && !won
+    const gameOver = won || lost
+
     function handleEnter() {
+        if (gameOver) return
         const current = guesses[currentRow]
         if (current.includes('_')) return
         setSubmittedRows(submittedRows + 1)
-        if (currentRow < MAX_GUESSES - 1) {
+        if (current !== targetWord && currentRow < MAX_GUESSES - 1) {
             setCurrentRow(currentRow + 1)
             setGuessPosition(0)
         }
+    }
+
+    function handleKeyPress(key) {
+        if (gameOver) return
+        setKeyPressed(key)
+    }
+
+    function handleDeleteSafe() {
+        if (gameOver) return
+        handleDelete()
     }
 
     return(
@@ -122,15 +137,18 @@ export default function Wordle(){
                 <Guess
                     key={i}
                     guess={g}
-                    guessPosition={i === currentRow ? guessPosition : -1}
+                    guessPosition={!gameOver && i === currentRow ? guessPosition : -1}
                     colors={i < submittedRows ? evaluateGuess(g, targetWord) : null}
                 />
             ))}
         </div>
 
+        {won && <p className="message">You got it!</p>}
+        {lost && <p className="message">The word was {targetWord}</p>}
+
         <Keyboard
-            setKeyPressed={setKeyPressed}
-            onDelete={handleDelete}
+            setKeyPressed={handleKeyPress}
+            onDelete={handleDeleteSafe}
             onEnter={handleEnter}
             keyColors={keyColors}
         />
@@ -140,6 +158,12 @@ export default function Wordle(){
                 display:flex;
                 flex-direction:column;
                 align-items:center;
+            }
+            .message{
+                font-size:1.2em;
+                font-weight:bold;
+                margin:1em 0;
+                text-align:center;
             }
         `}</style>
 
