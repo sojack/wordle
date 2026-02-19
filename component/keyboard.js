@@ -49,7 +49,8 @@ export default function Keyboard({ setKeyPressed, onDelete, onEnter, keyColors =
             .key{
                 border:none;
                 background-color:lightgrey;
-                padding:1.5em 1em;
+                padding:0 1em;
+                height:58px;
                 color:black;
                 margin:8px 2px;
                 cursor:pointer;
