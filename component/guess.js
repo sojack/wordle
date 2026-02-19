@@ -27,7 +27,7 @@ export default function Guess({guess, guessPosition, colors}){
                 .guess{
                     display:flex;
                     justify-content:center;
-                    margin:1em 0;
+                    margin:2px 0;
                   }
                 input{
                     border:none;
