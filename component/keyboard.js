@@ -51,9 +51,11 @@ export default function Keyboard({ setKeyPressed, onDelete, onEnter, keyColors =
                 background-color:lightgrey;
                 padding:0 1em;
                 height:58px;
+                font-size:0.8em;
                 color:black;
                 margin:8px 2px;
                 cursor:pointer;
+                box-sizing:border-box;
             }
             .key:hover{
                 opacity:0.8;
